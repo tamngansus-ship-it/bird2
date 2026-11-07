@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>พิมพ์ใบสมัครและใบมอบตัว - วิทยาลัยเทคนิคท่าหลวงซิเมนต์ไทยอนุสรณ์</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background-color: #E2E8F0;
+    }
+    @media print {
+      body {
+        background-color: #FFFFFF !important;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+    }
+  </style>
+</head>
+<body class="py-4 font-sans text-gray-800">
+
+  <!-- Control Bar (Hidden on print) -->
+  <div class="no-print max-w-4xl mx-auto mb-6 bg-white rounded-xl shadow-md p-4 border border-gray-200">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <img src="file:///C:/Users/KHANOMMECOM/.gemini/antigravity/brain/ef592f7e-6cee-4008-8202-f6010c5e72de/.user_uploaded/media_1794058206763_99a59a92.png" onerror="this.src='assets/logo.svg'" alt="TTC Logo" class="college-logo-img w-10 h-10 object-contain">
+        <div>
+          <h2 class="font-bold text-gray-900 text-sm md:text-base">เอกสารทางการ • วท.ท่าหลวงซิเมนต์ไทยอนุสรณ์</h2>
+          <p class="text-xs text-gray-500">สามารถสั่งพิมพ์ลงกระดาษ A4 หรือเลือกบันทึกเป็นไฟล์ PDF (Save as PDF)</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="tabBtnApp" onclick="switchPrintView('app')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-900 text-white shadow-sm transition">
+          <i class="fa-solid fa-file-lines mr-1"></i> 1. ใบสมัครเรียน
+        </button>
+        <button id="tabBtnEnroll" onclick="switchPrintView('enroll')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">
+          <i class="fa-solid fa-file-signature mr-1"></i> 2. ใบมอบตัว
+        </button>
+        <button id="tabBtnAll" onclick="switchPrintView('all')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition">
+          <i class="fa-solid fa-layer-group mr-1"></i> พิมพ์ทั้งสองใบ
+        </button>
+
+        <button onclick="window.print()" class="ml-2 px-4 py-1.5 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-600 text-white shadow transition flex items-center">
+          <i class="fa-solid fa-print mr-1.5 text-sm"></i> สั่งพิมพ์ / บันทึก PDF
+        </button>
+
+        <a href="status.html" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-100 hover:bg-gray-200 text-gray-600 transition">
+          <i class="fa-solid fa-arrow-left mr-1"></i> ย้อนกลับ
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Printable Container -->
+  <div class="max-w-4xl mx-auto">
+
+    <!-- ==========================================================================
+         PAGE 1: แบบฟอร์มใบสมัครเข้าศึกษาต่อ (สอศ. / วท.ท่าหลวงซิเมนต์ไทยอนุสรณ์)
+         ========================================================================== -->
+    <div id="printPageApplication" class="print-preview-container print-page mb-8 text-black text-xs md:text-sm leading-snug">
+      <!-- Header with Emblem & College Details -->
+      <div class="flex items-start justify-between border-b-2 border-black pb-3 mb-3">
+        <div class="w-20 flex-shrink-0 text-center">
+          <img src="file:///C:/Users/KHANOMMECOM/.gemini/antigravity/brain/ef592f7e-6cee-4008-8202-f6010c5e72de/.user_uploaded/media_1794058206763_99a59a92.png" onerror="this.src='assets/logo.svg'" alt="TTC Logo" class="college-logo-img w-16 h-16 mx-auto object-contain">
+        </div>
+        <div class="flex-1 text-center px-2">
+          <h1 class="font-bold text-base md:text-lg">วิทยาลัยเทคนิคท่าหลวงซิเมนต์ไทยอนุสรณ์</h1>
+          <h2 class="font-medium text-xs md:text-sm">สำนักงานคณะกรรมการการอาชีวศึกษา กระทรวงศึกษาธิการ</h2>
+          <div class="font-bold text-sm md:text-base mt-1 text-blue-900 border-t border-dotted border-gray-400 pt-1">
+            ใบสมัครเข้าศึกษาต่อ ประจำปีการศึกษา <span id="pAppYear">2568</span>
+          </div>
+          <div class="text-[11px] text-gray-600">
+            ระดับ<span id="pAppLevel" class="font-semibold text-black">ประกาศนียบัตรวิชาชีพ (ปวช.)</span> 
+            สาขาวิชา: <strong id="pAppMajor" class="text-black">สาขาวิชาช่างยนต์</strong>
+          </div>
+        </div>
+        <div class="w-28 flex-shrink-0 flex flex-col items-end">
+          <div class="photo-placeholder-box" id="pPhotoBox">
+            <span class="text-[10px] text-gray-400">รูปถ่ายหน้าตรง<br>ขนาด 1-1.5 นิ้ว</span>
+          </div>
+          <div class="text-[10px] font-mono mt-1 text-right">
+            <div>เลขที่: <strong id="pAppId" class="text-xs">APP-68001</strong></div>
+            <div id="pBarcodeMock" class="text-[11px] font-bold tracking-widest bg-gray-100 px-1 border border-gray-300 mt-0.5">||||||||||||||||</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Applicant Bio Data -->
+      <div class="space-y-2">
+        <div class="bg-gray-100 px-2 py-1 font-bold text-xs border border-gray-300">
+          หมวดที่ 1: ประวัติส่วนตัวผู้สมัคร
+        </div>
+        <div class="grid grid-cols-12 gap-1 text-xs">
+          <div class="col-span-8">
+            ชื่อ - สกุล: <strong id="pFullName" class="text-sm">นายกิตติศักดิ์ ทองมี</strong>
+          </div>
+          <div class="col-span-4">
+            เพศ: <span id="pGender">ชาย</span>
+          </div>
+
+          <div class="col-span-7">
+            เลขประจำตัวประชาชน: <strong id="pIdCard" class="font-mono text-xs">1-1037-02584-12-9</strong>
+          </div>
+          <div class="col-span-5">
+            วันเกิด: <span id="pBirthDate">14 พฤษภาคม 2552</span> (อายุ <span id="pAge">15 ปี</span>)
+          </div>
+
+          <div class="col-span-4">สัญชาติ: <span id="pNationality">ไทย</span></div>
+          <div class="col-span-4">ศาสนา: <span id="pReligion">พุทธ</span></div>
+          <div class="col-span-4">หมู่เลือด: <span id="pBloodGroup">O</span></div>
+
+          <div class="col-span-12">
+            ที่อยู่ตามทะเบียนบ้าน: บ้านเลขที่ <span id="pHouseNo">45/2</span> หมู่ที่ <span id="pMoo">3</span> 
+            ตำบล/แขวง <span id="pSubDistrict">บ้านครัว</span> อำเภอ/เขต <span id="pDistrict">บ้านหมอ</span> 
+            จังหวัด <span id="pProvince">สระบุรี</span> รหัสไปรษณีย์ <span id="pPostalCode">18270</span>
+          </div>
+
+          <div class="col-span-6">
+            โทรศัพท์ผู้สมัคร: <strong id="pPhone" class="font-mono">089-123-4567</strong>
+          </div>
+          <div class="col-span-6">
+            อีเมล: <span id="pEmail">kittisak.t@gmail.com</span>
+          </div>
+        </div>
+
+        <div class="bg-gray-100 px-2 py-1 font-bold text-xs border border-gray-300 mt-2">
+          หมวดที่ 2: วุฒิการศึกษาเดิมที่สำเร็จ
+        </div>
+        <div class="grid grid-cols-12 gap-1 text-xs">
+          <div class="col-span-6">
+            สำเร็จการศึกษาระดับ: <span id="pDegree">มัธยมศึกษาตอนต้น (ม.3)</span>
+          </div>
+          <div class="col-span-6">
+            สถานศึกษาเดิม: <strong id="pSchoolName">โรงเรียนอนุบาลวัดบ้านหมอ</strong>
+          </div>
+          <div class="col-span-6">
+            จังหวัดสถานศึกษาเดิม: <span id="pSchoolProvince">สระบุรี</span>
+          </div>
+          <div class="col-span-6">
+            ผลการเรียนเฉลี่ยสะสม (GPAX): <strong id="pGpax" class="text-sm">3.45</strong>
+          </div>
+        </div>
+
+        <div class="bg-gray-100 px-2 py-1 font-bold text-xs border border-gray-300 mt-2">
+          หมวดที่ 3: ข้อมูลครอบครัวและผู้ปกครอง
+        </div>
+        <div class="grid grid-cols-12 gap-1 text-xs">
+          <div class="col-span-6">
+            ชื่อ-สกุลบิดา: <span id="pFatherName">นายสมชาย ทองมี</span> (โทร: <span id="pFatherPhone">081-234-5678</span>)
+          </div>
+          <div class="col-span-6">
+            ชื่อ-สกุลมารดา: <span id="pMotherName">นางสมร ทองมี</span> (โทร: <span id="pMotherPhone">081-987-6543</span>)
+          </div>
+          <div class="col-span-12">
+            ชื่อ-สกุลผู้ปกครอง: <strong id="pGuardianName">นายสมชาย ทองมี</strong> 
+            ความสัมพันธ์: <span id="pGuardianRelation">บิดา</span> 
+            โทรศัพท์ผู้ปกครอง: <strong id="pGuardianPhone">081-234-5678</strong>
+          </div>
+          <div class="col-span-12">
+            ช่องทางการรับรู้ข่าวสาร/ผู้แนะนำ: <span id="pReferral">ครูแนะแนวโรงเรียนเดิม</span>
+          </div>
+        </div>
+
+        <!-- Applicant Certification -->
+        <div class="border border-gray-400 p-2 text-[11px] mt-2 rounded">
+          <div class="font-bold mb-1">คำรับรองของผู้สมัครและผู้ปกครอง:</div>
+          <div>ข้าพเจ้าขอรับรองว่า ข้อความและเอกสารหลักฐานทั้งหมดที่ได้ยื่นสมัครนี้ เป็นความจริงทุกประการ หากปรากฏในภายหลังว่าเป็นเท็จ ข้าพเจ้ายินยอมให้วิทยาลัยตัดสิทธิ์การเข้าศึกษาต่อโดยไม่มีเงื่อนไขใดๆ ทั้งสิ้น</div>
+          
+          <div class="grid grid-cols-2 gap-4 mt-6 text-center text-xs">
+            <div>
+              <div class="dotted-line w-44 mx-auto mb-1">&nbsp;</div>
+              <div>ลงชื่อ..............................................................ผู้สมัคร</div>
+              <div class="text-[10px] text-gray-500 mt-0.5">( <span id="pSignApplicant">นายกิตติศักดิ์ ทองมี</span> )</div>
+              <div class="text-[10px]">วันที่.........เดือน......................พ.ศ. 2568</div>
+            </div>
+            <div>
+              <div class="dotted-line w-44 mx-auto mb-1">&nbsp;</div>
+              <div>ลงชื่อ..............................................................ผู้ปกครอง</div>
+              <div class="text-[10px] text-gray-500 mt-0.5">( <span id="pSignGuardian">นายสมชาย ทองมี</span> )</div>
+              <div class="text-[10px]">วันที่.........เดือน......................พ.ศ. 2568</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Official Registry Section -->
+        <div class="border-2 border-black p-2 text-[11px] mt-3">
+          <div class="font-bold text-center underline mb-1">สำหรับเจ้าหน้าที่งานรับสมัครและทะเบียนวิทยาลัยฯ ตรวจสอบ</div>
+          <div class="grid grid-cols-12 gap-2 text-[11px]">
+            <div class="col-span-7">
+              <div class="font-semibold mb-1">รายการหลักฐานประกอบการสมัคร:</div>
+              <div class="grid grid-cols-2 gap-x-2 gap-y-0.5">
+                <div>[ / ] รูปถ่าย 1-1.5 นิ้ว (1 รูป)</div>
+                <div>[ / ] สำเนาบัตรประชาชนผู้สมัคร</div>
+                <div>[ / ] สำเนาทะเบียนบ้าน</div>
+                <div>[ / ] ใบแสดงผลการเรียน (ปพ.1/รบ.)</div>
+              </div>
+            </div>
+            <div class="col-span-5 text-center border-l border-gray-400 pl-2">
+              <div>ผลการตรวจเอกสาร: [ &check; ] ครบถ้วนสมบูรณ์</div>
+              <div class="mt-4">ลงชื่อ.........................................................ผู้ตรวจรับ</div>
+              <div class="text-[10px] text-gray-600 mt-0.5">(.........................................................)</div>
+              <div class="text-[10px]">เจ้าหน้าที่รับสมัครและทะเบียน</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         PAGE 2: สัญญาการมอบตัวนักเรียน นักศึกษาใหม่ และข้อตกลงสถานศึกษา
+         ========================================================================== -->
+    <div id="printPageEnrollment" class="print-preview-container print-page page-break text-black text-xs md:text-sm leading-snug">
+      <!-- Header -->
+      <div class="text-center border-b-2 border-black pb-3 mb-3">
+        <img src="file:///C:/Users/KHANOMMECOM/.gemini/antigravity/brain/ef592f7e-6cee-4008-8202-f6010c5e72de/.user_uploaded/media_1794058206763_99a59a92.png" onerror="this.src='assets/logo.svg'" alt="TTC Logo" class="college-logo-img w-14 h-14 mx-auto mb-1 object-contain">
+        <h1 class="font-bold text-base md:text-lg">ใบมอบตัวและสัญญาค้ำประกันนักเรียน นักศึกษาใหม่</h1>
+        <h2 class="font-semibold text-xs md:text-sm">วิทยาลัยเทคนิคท่าหลวงซิเมนต์ไทยอนุสรณ์ ประจำปีการศึกษา <span id="eAppYear">2568</span></h2>
+        <div class="text-[11px] text-gray-700 mt-1">เลขที่ 290 หมู่ 8 ตำบลบ้านครัว อำเภอบ้านหมอ จังหวัดสระบุรี 18270 โทร. 036-201-447</div>
+      </div>
+
+      <div class="space-y-3 text-xs leading-relaxed">
+        <div class="flex justify-between items-center bg-gray-100 p-2 border border-gray-300">
+          <div>
+            เลขที่ใบสมัคร: <strong id="eAppId" class="font-mono">APP-68001</strong>
+          </div>
+          <div>
+            รหัสนักศึกษาใหม่: <strong id="eStudentId" class="font-mono text-sm text-purple-900 font-bold bg-white px-2 py-0.5 border border-purple-400 rounded">68201010001</strong>
+          </div>
+          <div>
+            วันที่ทำสัญญา: <strong id="eContractDate">5 พฤศจิกายน 2568</strong>
+          </div>
+        </div>
+
+        <p class="indent-8 text-justify">
+          สัญญาฉบับนี้ทำขึ้น ณ วิทยาลัยเทคนิคท่าหลวงซิเมนต์ไทยอนุสรณ์ ระหว่าง ข้าพเจ้า 
+          <strong id="eSignerName">นายสมชาย ทองมี</strong> เกี่ยวข้องเป็น <strong id="eSignerRelation">บิดา</strong>
+          ของผู้มอบตัว อยู่บ้านเลขที่ <span id="eAddress">45/2 หมู่ 3 ต.บ้านครัว อ.บ้านหมอ จ.สระบุรี</span> 
+          โทรศัพท์ <span id="ePhone">081-234-5678</span> ซึ่งต่อไปในสัญญานี้เรียกว่า <strong>"ผู้ให้สัญญา"</strong> ฝ่ายหนึ่ง 
+          กับ วิทยาลัยเทคนิคท่าหลวงซิเมนต์ไทยอนุสรณ์ โดยผู้อำนวยการวิทยาลัยฯ ซึ่งต่อไปนี้เรียกว่า <strong>"วิทยาลัย"</strong> อีกฝ่ายหนึ่ง
+        </p>
+
+        <p class="indent-8 text-justify">
+          ผู้ให้สัญญาได้นำ <strong><span id="eStudentName">นายกิตติศักดิ์ ทองมี</span></strong> ซึ่งต่อไปนี้เรียกว่า <strong>"นักเรียน/นักศึกษา"</strong>
+          เข้ามอบตัวเพื่อศึกษาต่อในระดับ <strong id="eLevel">ประกาศนียบัตรวิชาชีพ (ปวช.)</strong> 
+          สาขาวิชา <strong id="eMajor">ช่างยนต์ (เครื่องกล)</strong> โดยทั้งสองฝ่ายได้ตกลงทำสัญญากันไว้ดังมีข้อความต่อไปนี้:
+        </p>
+
+        <div class="space-y-1.5 pl-4 text-[11px]">
+          <div><strong>ข้อ 1.</strong> ผู้ให้สัญญาและนักเรียน/นักศึกษา ยินยอมปฏิบัติตามระเบียบ ข้อบังคับ และคำสั่งของกระทรวงศึกษาธิการ และของวิทยาลัยเทคนิคท่าหลวงซิเมนต์ไทยอนุสรณ์ ทั้งที่มีอยู่แล้วในปัจจุบันและที่จะมีขึ้นในภายหน้าทุกประการ</div>
+          <div><strong>ข้อ 2.</strong> ผู้ให้สัญญาจะเอาใจใส่ดูแลความประพฤติ การเรียน และการแต่งกายของนักเรียน/นักศึกษาให้อยู่ในระเบียบวินัยอันดีงามตลอดเวลาที่ศึกษาอยู่ในวิทยาลัย</div>
+          <div><strong>ข้อ 3.</strong> หากนักเรียน/นักศึกษาประพฤติผิดระเบียบ ก่อเหตุวิวาท ทะเลาะวิวาท พกพาอาวุธ เสพสิ่งเสพติด หรือทำความเสียหายแก่ทรัพย์สินของวิทยาลัย ผู้ให้สัญญายินยอมชดใช้ค่าเสียหายเต็มจำนวน และยินยอมให้วิทยาลัยดำเนินการลงโทษตามระเบียบวินัยสถานศึกษาจนถึงขั้นให้ออกหรือพ้นสภาพ</div>
+          <div><strong>ข้อ 4.</strong> หากวิทยาลัยมีหนังสือเชิญผู้ปกครองมาพบเพื่อปรึกษาหารือเกี่ยวกับนักเรียน/นักศึกษา ผู้ให้สัญญาตกลงจะมาพบตามกำหนดนัดหมายทุกครั้ง</div>
+        </div>
+
+        <p class="text-[11px]">
+          สัญญานี้ทำขึ้นเป็นสองฉบับ มีข้อความถูกต้องตรงกัน ทั้งสองฝ่ายได้อ่านและเข้าใจข้อความโดยละเอียดแล้ว จึงได้ลงลายมือชื่อไว้เป็นหลักฐานต่อหน้าพยาน
+        </p>
+
+        <!-- Signatures Matrix -->
+        <div class="grid grid-cols-2 gap-y-6 gap-x-8 mt-6 text-center text-xs">
+          <div>
+            <div class="dotted-line w-48 mx-auto mb-1">&nbsp;</div>
+            <div>ลงชื่อ..........................................................นักเรียน/นักศึกษา</div>
+            <div class="text-[10px] text-gray-600 mt-0.5">( <span id="eSignStudent">นายกิตติศักดิ์ ทองมี</span> )</div>
+          </div>
+
+          <div>
+            <div class="dotted-line w-48 mx-auto mb-1">&nbsp;</div>
+            <div>ลงชื่อ..........................................................ผู้ปกครอง/ผู้ให้สัญญา</div>
+            <div class="text-[10px] text-gray-600 mt-0.5">( <span id="eSignParent">นายสมชาย ทองมี</span> )</div>
+          </div>
+
+          <div>
+            <div class="dotted-line w-48 mx-auto mb-1">&nbsp;</div>
+            <div>ลงชื่อ..........................................................พยานฝ่ายผู้ปกครอง</div>
+            <div class="text-[10px] text-gray-600 mt-0.5">(..........................................................)</div>
+          </div>
+
+          <div>
+            <div class="dotted-line w-48 mx-auto mb-1">&nbsp;</div>
+            <div>ลงชื่อ..........................................................พยานฝ่ายวิทยาลัย</div>
+            <div class="text-[10px] text-gray-600 mt-0.5">( นางสาวดวงใจ รักษ์ดี ) หัวหน้างานทะเบียน</div>
+          </div>
+        </div>
+
+        <!-- Receipt / Registration Confirmation stamp -->
+        <div class="border border-black p-2 mt-4 bg-gray-50 flex items-center justify-between text-[11px]">
+          <div>
+            <div><strong>สถานะการมอบตัว:</strong> <span class="text-emerald-700 font-bold">&check; บันทึกขึ้นทะเบียนนักศึกษาใหม่เรียบร้อย</span></div>
+            <div><strong>การชำระเงินค่าธรรมเนียม:</strong> ชำระเรียบร้อยตามใบเสร็จรับเงิน</div>
+          </div>
+          <div class="text-right">
+            <div class="font-semibold">งานทะเบียนและวัดผล วท.ท่าหลวงฯ</div>
+            <div class="text-[10px] text-gray-500">โทร. 036-201-447 ต่อ 103</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app-data.js"></script>
+  <script src="js/validation.js"></script>
+  <script>
+    // Tab Switching for Print Preview
+    function switchPrintView(tab) {
+      const pApp = document.getElementById("printPageApplication");
+      const pEnroll = document.getElementById("printPageEnrollment");
+
+      const btnApp = document.getElementById("tabBtnApp");
+      const btnEnroll = document.getElementById("tabBtnEnroll");
+      const btnAll = document.getElementById("tabBtnAll");
+
+      // Reset buttons
+      [btnApp, btnEnroll, btnAll].forEach(b => {
+        b.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition";
+      });
+
+      if (tab === "app") {
+        pApp.style.display = "block";
+        pEnroll.style.display = "none";
+        btnApp.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-900 text-white shadow-sm transition";
+      } else if (tab === "enroll") {
+        pApp.style.display = "none";
+        pEnroll.style.display = "block";
+        btnEnroll.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-900 text-white shadow-sm transition";
+      } else {
+        pApp.style.display = "block";
+        pEnroll.style.display = "block";
+        btnAll.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-900 text-white shadow-sm transition";
+      }
+    }
+
+    // Populate data from URL (?id=APP-68001 or citizen ID)
+    document.addEventListener("DOMContentLoaded", function() {
+      const params = new URLSearchParams(window.location.search);
+      const idParam = params.get("id") || "APP-68001";
+      const tabParam = params.get("tab") || "all";
+
+      let applicant = TTC_DB.getApplicantById(idParam);
+      if (!applicant) {
+        applicant = TTC_DB.getApplicantByCitizenId(idParam);
+      }
+      if (!applicant) {
+        applicant = INITIAL_DEMO_APPLICANTS[0];
+      }
+
+      populateDocument(applicant);
+      switchPrintView(tabParam);
+    });
+
+    function populateDocument(app) {
+      const addr = app.address || {};
+      const edu = app.previousEducation || {};
+      const par = app.parentInfo || {};
+      const enroll = app.enrollmentDetails || {};
+
+      // Application Page
+      document.getElementById("pAppYear").textContent = app.academicYear || TTC_COLLEGE_INFO.currentAcademicYear;
+      document.getElementById("pAppLevel").textContent = app.level === "ปวช." ? "ประกาศนียบัตรวิชาชีพ (ปวช.)" : "ประกาศนียบัตรวิชาชีพชั้นสูง (ปวส.)";
+      document.getElementById("pAppMajor").textContent = `[${app.majorCode}] ${app.majorName}`;
+      document.getElementById("pAppId").textContent = app.id;
+      document.getElementById("pFullName").textContent = `${app.prefix}${app.firstName} ${app.lastName}`;
+      document.getElementById("pGender").textContent = app.gender || "ชาย";
+      document.getElementById("pIdCard").textContent = TTC_VALIDATOR.formatThaiCitizenId(app.idCard);
+      document.getElementById("pBirthDate").textContent = TTC_VALIDATOR.formatThaiDate(app.birthDate);
+      document.getElementById("pAge").textContent = TTC_VALIDATOR.calculateAge(app.birthDate) || "-";
+      document.getElementById("pNationality").textContent = app.nationality || "ไทย";
+      document.getElementById("pReligion").textContent = app.religion || "พุทธ";
+      document.getElementById("pBloodGroup").textContent = app.bloodGroup || "-";
+
+      document.getElementById("pHouseNo").textContent = addr.houseNo || "-";
+      document.getElementById("pMoo").textContent = addr.moo || "-";
+      document.getElementById("pSubDistrict").textContent = addr.subDistrict || "-";
+      document.getElementById("pDistrict").textContent = addr.district || "-";
+      document.getElementById("pProvince").textContent = addr.province || "-";
+      document.getElementById("pPostalCode").textContent = addr.postalCode || "-";
+
+      document.getElementById("pPhone").textContent = TTC_VALIDATOR.formatThaiPhone(app.phone);
+      document.getElementById("pEmail").textContent = app.email || "-";
+
+      document.getElementById("pDegree").textContent = edu.degree || "-";
+      document.getElementById("pSchoolName").textContent = edu.schoolName || "-";
+      document.getElementById("pSchoolProvince").textContent = edu.province || "-";
+      document.getElementById("pGpax").textContent = edu.gpax || "-";
+
+      document.getElementById("pFatherName").textContent = par.fatherName || "-";
+      document.getElementById("pFatherPhone").textContent = TTC_VALIDATOR.formatThaiPhone(par.fatherPhone) || "-";
+      document.getElementById("pMotherName").textContent = par.motherName || "-";
+      document.getElementById("pMotherPhone").textContent = TTC_VALIDATOR.formatThaiPhone(par.motherPhone) || "-";
+      document.getElementById("pGuardianName").textContent = par.guardianName || "-";
+      document.getElementById("pGuardianRelation").textContent = par.guardianRelation || "-";
+      document.getElementById("pGuardianPhone").textContent = TTC_VALIDATOR.formatThaiPhone(par.guardianPhone) || "-";
+      document.getElementById("pReferral").textContent = app.referral || "-";
+
+      document.getElementById("pSignApplicant").textContent = `${app.prefix}${app.firstName} ${app.lastName}`;
+      document.getElementById("pSignGuardian").textContent = par.guardianName || par.fatherName || par.motherName || "ผู้ปกครอง";
+
+      // Photo
+      const photoBox = document.getElementById("pPhotoBox");
+      if (app.documents?.photo) {
+        photoBox.innerHTML = `<img src="${app.documents.photo}" class="w-full h-full object-cover" alt="Student Photo">`;
+      }
+
+      // Enrollment Page
+      document.getElementById("eAppYear").textContent = app.academicYear || TTC_COLLEGE_INFO.currentAcademicYear;
+      document.getElementById("eAppId").textContent = app.id;
+      document.getElementById("eStudentId").textContent = app.studentId || "- (รอดำเนินการมอบตัว)";
+      document.getElementById("eContractDate").textContent = enroll.enrolledDate ? TTC_VALIDATOR.formatThaiDate(enroll.enrolledDate) : TTC_VALIDATOR.formatThaiDate(new Date().toISOString().split("T")[0]);
+
+      document.getElementById("eSignerName").textContent = enroll.contractSigner || par.guardianName || par.fatherName || "ผู้ปกครอง";
+      document.getElementById("eSignerRelation").textContent = enroll.signerRelation || par.guardianRelation || "ผู้ปกครอง";
+      document.getElementById("eAddress").textContent = `${addr.houseNo || '-'} ม.${addr.moo || '-'} ต.${addr.subDistrict || '-'} อ.${addr.district || '-'} จ.${addr.province || '-'}`;
+      document.getElementById("ePhone").textContent = TTC_VALIDATOR.formatThaiPhone(par.guardianPhone || app.phone);
+
+      document.getElementById("eStudentName").textContent = `${app.prefix}${app.firstName} ${app.lastName}`;
+      document.getElementById("eLevel").textContent = app.level === "ปวช." ? "ประกาศนียบัตรวิชาชีพ (ปวช.)" : "ประกาศนียบัตรวิชาชีพชั้นสูง (ปวส.)";
+      document.getElementById("eMajor").textContent = app.majorName;
+
+      document.getElementById("eSignStudent").textContent = `${app.prefix}${app.firstName} ${app.lastName}`;
+      document.getElementById("eSignParent").textContent = enroll.contractSigner || par.guardianName || "ผู้ปกครอง";
+    }
+  </script>
+</body>
+</html>

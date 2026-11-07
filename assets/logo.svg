@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <!-- Primary: Display the exact transparent PNG uploaded by the user -->
+  <image href="file:///C:/Users/KHANOMMECOM/.gemini/antigravity/brain/ef592f7e-6cee-4008-8202-f6010c5e72de/.user_uploaded/media_1794058206763_99a59a92.png" 
+         xlink:href="file:///C:/Users/KHANOMMECOM/.gemini/antigravity/brain/ef592f7e-6cee-4008-8202-f6010c5e72de/.user_uploaded/media_1794058206763_99a59a92.png" 
+         x="0" y="0" width="1000" height="1000" preserveAspectRatio="xMidYMid meet"/>
+
+  <!-- Online transparent PNG fallback from official site -->
+  <image href="http://www.tl.ac.th/pictures/logo/ttc_no_bg.png" 
+         xlink:href="http://www.tl.ac.th/pictures/logo/ttc_no_bg.png" 
+         x="0" y="0" width="1000" height="1000" preserveAspectRatio="xMidYMid meet"/>
+
+  <!-- Vector Fallback (Identical 1000x1000 geometry matching the user's transparent PNG) -->
+  <g id="vector-emblem" style="isolation: isolate;">
+    <!-- Left Ribbon Tail -->
+    <polygon points="12,374 138,374 138,552 12,552 38,463" fill="#000000"/>
+    <polygon points="18,380 132,380 132,546 18,546 42,463" fill="#FFFFFF"/>
+    <polygon points="24,386 126,386 126,540 24,540 46,463" fill="#EE1C24"/>
+    <polygon points="98,374 138,374 138,552 98,552" fill="#C11018"/>
+    <line x1="98" y1="374" x2="98" y2="552" stroke="#000000" stroke-width="4"/>
+
+    <!-- Right Ribbon Tail -->
+    <polygon points="988,374 862,374 862,552 988,552 962,463" fill="#000000"/>
+    <polygon points="982,380 868,380 868,546 982,546 958,463" fill="#FFFFFF"/>
+    <polygon points="976,386 874,386 874,540 976,540 954,463" fill="#EE1C24"/>
+    <polygon points="902,374 862,374 862,552 902,552" fill="#C11018"/>
+    <line x1="902" y1="374" x2="902" y2="552" stroke="#000000" stroke-width="4"/>
+
+    <!-- Outer Hexagon Borders -->
+    <polygon points="500,32 822,216 822,642 500,826 178,642 178,216" fill="#000000"/>
+    <polygon points="500,40 814,220 814,638 500,818 186,638 186,220" fill="#FFFFFF"/>
+    <polygon points="500,50 804,225 804,633 500,808 196,633 196,225" fill="#000000"/>
+
+    <!-- Inner 4 Red Triangles -->
+    <!-- Top-Left -->
+    <polygon points="500,54 200,227 310,420" fill="#EE1C24" stroke="#FFFFFF" stroke-width="8"/>
+    <!-- Top-Right -->
+    <polygon points="500,54 800,227 690,420" fill="#EE1C24" stroke="#FFFFFF" stroke-width="8"/>
+    <!-- Bottom-Left -->
+    <polygon points="310,420 200,631 500,804" fill="#EE1C24" stroke="#FFFFFF" stroke-width="8"/>
+    <!-- Bottom-Right -->
+    <polygon points="690,420 800,631 500,804" fill="#EE1C24" stroke="#FFFFFF" stroke-width="8"/>
+
+    <!-- Central Blue Diamond -->
+    <polygon points="500,54 690,420 500,776 310,420" fill="#0044CC" stroke="#FFFFFF" stroke-width="10"/>
+
+    <!-- Thai Characters: สุ จิ ปุ ลิ -->
+    <text x="326" y="260" font-family="'Sarabun', 'Prompt', sans-serif" font-size="78" font-weight="900" fill="#FFFFFF" text-anchor="middle" stroke="#000000" stroke-width="1.5">สุ</text>
+    <text x="674" y="260" font-family="'Sarabun', 'Prompt', sans-serif" font-size="78" font-weight="900" fill="#FFFFFF" text-anchor="middle" stroke="#000000" stroke-width="1.5">จิ</text>
+    <text x="326" y="620" font-family="'Sarabun', 'Prompt', sans-serif" font-size="78" font-weight="900" fill="#FFFFFF" text-anchor="middle" stroke="#000000" stroke-width="1.5">ปุ</text>
+    <text x="674" y="620" font-family="'Sarabun', 'Prompt', sans-serif" font-size="78" font-weight="900" fill="#FFFFFF" text-anchor="middle" stroke="#000000" stroke-width="1.5">ลิ</text>
+
+    <!-- Golden Vocational Emblem -->
+    <g id="vocational-golden-seal">
+      <!-- Flame Halo Crest -->
+      <path d="M 500,196 C 522,224 570,252 588,300 C 602,340 594,380 580,416 C 564,452 530,472 500,478 C 470,472 436,452 420,416 C 406,380 398,340 412,300 C 430,252 478,224 500,196 Z" fill="#FBBF24" stroke="#854D0E" stroke-width="4"/>
+      <path d="M 500,226 C 514,244 550,266 564,306 C 574,336 568,368 558,396 C 546,424 522,442 500,446 C 478,442 454,424 442,396 C 432,368 426,336 436,306 C 450,266 486,244 500,226 Z" fill="#003AA8" stroke="#FBBF24" stroke-width="3"/>
+
+      <!-- Dharma / Cogwheel -->
+      <circle cx="500" cy="342" r="54" fill="#FBBF24" stroke="#854D0E" stroke-width="3.5"/>
+      <circle cx="500" cy="342" r="36" fill="#003AA8" stroke="#FEF08A" stroke-width="3.5"/>
+      <circle cx="500" cy="342" r="14" fill="#FBBF24"/>
+      <!-- Spokes -->
+      <line x1="500" y1="306" x2="500" y2="378" stroke="#FBBF24" stroke-width="5"/>
+      <line x1="464" y1="342" x2="536" y2="342" stroke="#FBBF24" stroke-width="5"/>
+      <line x1="475" y1="317" x2="525" y2="367" stroke="#FBBF24" stroke-width="4"/>
+      <line x1="475" y1="367" x2="525" y2="317" stroke="#FBBF24" stroke-width="4"/>
+
+      <!-- Pedestal / Throne -->
+      <path d="M 444,440 L 556,440 L 570,470 L 430,470 Z" fill="#FBBF24" stroke="#854D0E" stroke-width="3.5"/>
+      <path d="M 420,470 L 580,470 L 572,492 L 428,492 Z" fill="#FEF08A" stroke="#854D0E" stroke-width="3"/>
+      <path d="M 436,492 L 564,492 L 580,516 L 420,516 Z" fill="#FBBF24" stroke="#854D0E" stroke-width="3.5"/>
+
+      <!-- Date Banner: ๑ เม.ย. ๒๕ -->
+      <path d="M 408,530 Q 500,552 592,530 L 596,560 Q 500,582 404,560 Z" fill="#001854" stroke="#FEF08A" stroke-width="2.5"/>
+      <text x="500" y="554" font-family="'Prompt', sans-serif" font-size="22" font-weight="bold" fill="#FEF08A" text-anchor="middle">๑ เม.ย. ๒๕</text>
+    </g>
+
+    <!-- Bottom Red Ribbon with College Name -->
+    <g id="bottom-ribbon">
+      <!-- Black Outer Border -->
+      <path d="M 70,506 L 178,506 L 178,604 L 500,848 L 822,604 L 822,506 L 930,506 L 930,628 L 500,956 L 70,628 Z" fill="#000000"/>
+      <!-- White Mid Border -->
+      <path d="M 76,512 L 172,512 L 172,608 L 500,854 L 828,608 L 828,512 L 924,512 L 924,622 L 500,950 L 76,622 Z" fill="#FFFFFF"/>
+      <!-- Red Ribbon Body -->
+      <path d="M 82,518 L 166,518 L 166,612 L 500,862 L 834,612 L 834,518 L 918,518 L 918,616 L 500,942 L 82,616 Z" fill="#EE1C24"/>
+
+      <!-- Text: วิทยาลัยเทคนิคท่าหลวงซิเมนต์ไทยอนุสรณ์ -->
+      <path id="pathRibbonText" d="M 94,600 L 500,898 L 906,600" fill="none"/>
+      <text font-family="'Prompt', 'Sarabun', 'Kanit', sans-serif" font-size="36" font-weight="900" fill="#FFFFFF" letter-spacing="0.5">
+        <textPath href="#pathRibbonText" startOffset="50%" text-anchor="middle">
+          วิทยาลัยเทคนิคท่าหลวงซิเมนต์ไทยอนุสรณ์
+        </textPath>
+      </text>
+    </g>
+  </g>
+</svg>

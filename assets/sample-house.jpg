@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 350" width="100%" height="100%">
+  <rect width="100%" height="100%" fill="#FEFCE8" stroke="#CA8A04" stroke-width="2"/>
+  
+  <text x="250" y="40" font-family="'Prompt', sans-serif" font-size="18" font-weight="bold" fill="#713F12" text-anchor="middle">
+    สำเนาทะเบียนบ้าน (ท.ร.14)
+  </text>
+  <text x="250" y="65" font-family="'Prompt', sans-serif" font-size="13" fill="#854D0E" text-anchor="middle">
+    กรมการปกครอง กระทรวงมหาดไทย
+  </text>
+
+  <line x1="30" y1="80" x2="470" y2="80" stroke="#CA8A04" stroke-width="1.5"/>
+
+  <g font-family="'Prompt', sans-serif" font-size="12" fill="#451A03" transform="translate(40, 110)">
+    <text y="0"><strong>ที่อยู่:</strong> 45/2 หมู่ที่ 3 บ้านท่าลาน</text>
+    <text y="28"><strong>ตำบล:</strong> บ้านครัว  <strong>อำเภอ:</strong> บ้านหมอ  <strong>จังหวัด:</strong> สระบุรี 18270</text>
+    
+    <rect y="50" width="420" height="90" fill="#FFFFFF" stroke="#E2E8F0" rx="4"/>
+    <text x="15" y="75" font-weight="bold" fill="#1E3A8A">รายการบุคคลในบ้าน: นายกิตติศักดิ์ ทองมี</text>
+    <text x="15" y="100" fill="#475569">เลขประจำตัวประชาชน: 1-1037-02584-12-9</text>
+    <text x="15" y="122" fill="#475569">สัญชาติ: ไทย | เกิดวันที่: 14 พฤษภาคม 2552 | สถานะ: บุตร</text>
+  </g>
+
+  <text x="250" y="320" font-family="'Prompt', sans-serif" font-size="12" font-weight="bold" fill="#059669" text-anchor="middle">
+    [ สำเนาถูกต้อง - ใช้สำหรับการสมัครเรียน วท.ท่าหลวงฯ เท่านั้น ]
+  </text>
+</svg>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ตรวจสอบสถานะการสมัครเรียน - วิทยาลัยเทคนิคท่าหลวงซิเมนต์ไทยอนุสรณ์</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-slate-100 text-slate-800 flex flex-col min-h-screen">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow-sm sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="index.html" class="flex items-center space-x-3">
+          <div class="w-12 h-12 rounded-full bg-white p-1 shadow-sm border border-slate-200 flex items-center justify-center overflow-hidden">
+            <img src="file:///C:/Users/KHANOMMECOM/.gemini/antigravity/brain/ef592f7e-6cee-4008-8202-f6010c5e72de/.user_uploaded/media_1794058206763_99a59a92.png" onerror="this.src='assets/logo.svg'" alt="TTC Logo" class="college-logo-img h-full w-full object-contain">
+          </div>
+          <div>
+            <div class="font-bold text-base md:text-lg text-blue-950 font-head leading-tight">
+              วิทยาลัยเทคนิคท่าหลวงซิเมนต์ไทยอนุสรณ์
+            </div>
+            <div class="text-[11px] text-slate-500">
+              ระบบตรวจสอบสถานะการสมัครเรียนออนไลน์ ประจำปีการศึกษา 2568
+            </div>
+          </div>
+        </a>
+
+        <div class="flex items-center space-x-3 text-xs md:text-sm">
+          <a href="apply.html" class="px-3.5 py-2 rounded-lg bg-blue-900 hover:bg-blue-800 text-white font-medium transition flex items-center">
+            <i class="fa-solid fa-file-pen mr-1.5"></i> กรอกใบสมัครใหม่
+          </a>
+          <a href="index.html" class="px-3.5 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition">
+            <i class="fa-solid fa-house mr-1 text-slate-500"></i> หน้าแรก
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner -->
+  <div class="college-gradient text-white py-8 shadow-inner">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-2xl md:text-3xl font-extrabold font-head">ตรวจสอบสถานะการสมัครและพิมพ์เอกสาร</h1>
+      <p class="text-slate-200 text-xs md:text-sm mt-1">
+        เช็กผลการตรวจเอกสาร ผลการคัดเลือก และดาวน์โหลดใบสมัคร/ใบมอบตัว (PDF)
+      </p>
+    </div>
+  </div>
+
+  <!-- Search Card -->
+  <div class="max-w-3xl mx-auto px-4 w-full -mt-6">
+    <div class="bg-white rounded-2xl shadow-md p-6 border border-slate-200">
+      <label for="searchIdCard" class="form-label font-bold text-sm text-slate-800 mb-2">
+        <i class="fa-regular fa-id-card text-blue-900 mr-1.5"></i> กรอกเลขประจำตัวประชาชน (13 หลัก) หรือ เลขที่ใบสมัคร
+      </label>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <div class="relative flex-1">
+          <input type="text" id="searchIdCard" maxlength="17" placeholder="X-XXXX-XXXXX-XX-X หรือ APP-XXXXX"
+                 class="form-control text-base font-mono tracking-wider pl-4 pr-10">
+        </div>
+        <button type="button" id="btnSearchStatus"
+                class="px-6 py-2.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm shadow transition flex items-center justify-center">
+          <i class="fa-solid fa-magnifying-glass mr-2"></i> ค้นหาข้อมูล
+        </button>
+      </div>
+      <div class="text-[11px] text-slate-400 mt-2 flex items-center justify-between">
+        <span>* ข้อมูลจะปรากฏทันทีหลังจากที่ท่านกดยืนยันการสมัครเรียบร้อยแล้ว</span>
+        <span>ตัวอย่างทดสอบ: 1-1037-02584-12-9</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result Container -->
+  <main class="flex-grow max-w-4xl mx-auto px-4 py-8 w-full">
+
+    <!-- Not Found State -->
+    <div id="statusNotFoundContainer" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
+      <div class="w-16 h-16 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-4 text-2xl">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h3 class="text-lg font-bold font-head text-slate-800">ไม่พบข้อมูลการสมัคร</h3>
+      <p class="text-xs text-slate-500 max-w-md mx-auto mt-1 mb-4">
+        ไม่พบข้อมูลผู้สมัครที่ตรงกับเลขประจำตัวประชาชนนี้ กรุณาตรวจสอบตัวเลขอีกครั้ง หรือหากยังไม่ได้ยื่นใบสมัคร ท่านสามารถกรอกใบสมัครใหม่ได้ทันที
+      </p>
+      <a href="apply.html" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-blue-900 hover:bg-blue-800 text-white font-semibold text-xs shadow transition">
+        <i class="fa-solid fa-file-pen mr-2"></i> กรอกใบสมัครออนไลน์
+      </a>
+    </div>
+
+    <!-- Found Result Card -->
+    <div id="statusResultContainer" class="hidden space-y-6">
+
+      <!-- Status Header & Timeline Card -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-4 mb-6">
+          <div>
+            <div class="text-xs text-slate-400">สถานะใบสมัครปัจจุบัน</div>
+            <div id="resStatusBadge" class="mt-1">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs text-slate-500">เลขที่ใบสมัคร: <strong id="resAppId" class="text-blue-900 font-mono text-sm">-</strong></div>
+            <div class="text-xs text-slate-500">รหัสนักศึกษา: <strong id="resStudentId" class="text-purple-700 font-mono text-sm">-</strong></div>
+          </div>
+        </div>
+
+        <!-- 4-Step Process Timeline -->
+        <div class="mb-6">
+          <div class="text-xs font-bold text-slate-700 mb-3 uppercase tracking-wider">
+            <i class="fa-solid fa-route text-blue-900 mr-1.5"></i> ลำดับขั้นตอนการสมัครและคัดเลือก
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+            <!-- Step 1 -->
+            <div id="trackStep1" class="p-3 rounded-xl border border-slate-200 bg-slate-50 text-xs">
+              <div class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center mx-auto mb-1 text-xs font-bold">
+                &check;
+              </div>
+              <div class="font-bold text-slate-800">1. ยื่นใบสมัคร</div>
+              <div class="text-[10px] text-slate-500">ส่งข้อมูลเข้าระบบแล้ว</div>
+            </div>
+
+            <!-- Step 2 -->
+            <div id="trackStep2" class="p-3 rounded-xl border border-slate-200 bg-slate-50 text-xs">
+              <div class="w-7 h-7 rounded-full bg-slate-300 text-slate-700 flex items-center justify-center mx-auto mb-1 text-xs font-bold">
+                2
+              </div>
+              <div class="font-bold text-slate-800">2. ตรวจสอบเอกสาร</div>
+              <div class="text-[10px] text-slate-500">เจ้าหน้าที่กำลังพิจารณา</div>
+            </div>
+
+            <!-- Step 3 -->
+            <div id="trackStep3" class="p-3 rounded-xl border border-slate-200 bg-slate-50 text-xs">
+              <div class="w-7 h-7 rounded-full bg-slate-300 text-slate-700 flex items-center justify-center mx-auto mb-1 text-xs font-bold">
+                3
+              </div>
+              <div class="font-bold text-slate-800">3. ประกาศผลคัดเลือก</div>
+              <div class="text-[10px] text-slate-500">ตรวจสอบสิทธิ์เข้าศึกษา</div>
+            </div>
+
+            <!-- Step 4 -->
+            <div id="trackStep4" class="p-3 rounded-xl border border-slate-200 bg-slate-50 text-xs">
+              <div class="w-7 h-7 rounded-full bg-slate-300 text-slate-700 flex items-center justify-center mx-auto mb-1 text-xs font-bold">
+                4
+              </div>
+              <div class="font-bold text-slate-800">4. รายงานตัว / มอบตัว</div>
+              <div class="text-[10px] text-slate-500">ขึ้นทะเบียนนักศึกษาใหม่</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes / Remarks Banner -->
+        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-start space-x-3 text-xs">
+          <i class="fa-solid fa-message text-blue-800 text-base mt-0.5"></i>
+          <div>
+            <strong class="text-slate-800">ข้อความแจ้งเตือนจากเจ้าหน้าที่:</strong>
+            <div id="resStatusNotes" class="text-slate-600 mt-1">
+              -
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Incomplete Documents Repair / Re-upload Box -->
+      <div id="reuploadContainer" class="hidden bg-rose-50 border-2 border-rose-300 rounded-2xl p-6 text-rose-950 shadow-sm">
+        <div class="flex items-start space-x-3">
+          <div class="w-10 h-10 rounded-full bg-rose-200 text-rose-700 flex items-center justify-center text-lg flex-shrink-0">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <div class="flex-1">
+            <h4 class="font-bold text-base font-head text-rose-900">เอกสารไม่สมบูรณ์ — กรุณาอัปโหลดเอกสารแก้ไข</h4>
+            <p class="text-xs text-rose-800 mt-1">
+              เจ้าหน้าที่ได้ตรวจสอบและแจ้งว่าเอกสารบางรายการต้องแก้ไข ท่านสามารถเลือกประเภทเอกสารและแนบไฟล์เพื่อส่งให้เจ้าหน้าที่ตรวจสอบใหม่ได้ทันที
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 mt-4">
+              <div class="md:col-span-5">
+                <label for="reuploadDocType" class="form-label text-xs font-semibold text-rose-900">เลือกประเภทเอกสารที่ต้องการแก้ไข</label>
+                <select id="reuploadDocType" class="form-select text-xs">
+                  <option value="transcriptDoc">ใบแสดงผลการเรียน (รบ. / ปพ.1)</option>
+                  <option value="idCardDoc">สำเนาบัตรประจำตัวประชาชน</option>
+                  <option value="houseDoc">สำเนาทะเบียนบ้าน</option>
+                  <option value="photo">รูปถ่ายหน้าตรง</option>
+                </select>
+              </div>
+
+              <div class="md:col-span-5">
+                <label for="reuploadFile" class="form-label text-xs font-semibold text-rose-900">เลือกไฟล์เอกสารใหม่ (JPG, PNG, PDF)</label>
+                <input type="file" id="reuploadFile" accept="image/jpeg,image/png,application/pdf" class="form-control text-xs">
+              </div>
+
+              <div class="md:col-span-2 flex items-end">
+                <button type="button" id="btnSubmitReupload" class="w-full py-2.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow transition">
+                  <i class="fa-solid fa-upload mr-1"></i> ส่งเอกสาร
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Applicant Bio & Info Card -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+        <h3 class="font-bold text-lg font-head text-blue-950 mb-4 pb-2 border-b flex items-center">
+          <i class="fa-solid fa-address-card text-blue-900 mr-2"></i> ข้อมูลการสมัครของผู้สมัคร
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-3 bg-slate-50 rounded-lg">
+            <span class="text-slate-500 block mb-0.5">ชื่อ - นามสกุล:</span>
+            <strong id="resFullName" class="text-sm text-slate-800">-</strong>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-lg">
+            <span class="text-slate-500 block mb-0.5">เลขประจำตัวประชาชน:</span>
+            <strong id="resIdCard" class="text-sm font-mono text-slate-800">-</strong>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-lg">
+            <span class="text-slate-500 block mb-0.5">ระดับการศึกษา:</span>
+            <strong id="resLevel" class="text-sm text-slate-800">-</strong>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-lg">
+            <span class="text-slate-500 block mb-0.5">สาขาวิชา:</span>
+            <strong id="resMajor" class="text-sm text-blue-900">-</strong>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-lg">
+            <span class="text-slate-500 block mb-0.5">สถานศึกษาเดิม:</span>
+            <strong id="resSchool" class="text-slate-800">-</strong>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-lg">
+            <span class="text-slate-500 block mb-0.5">เกรดเฉลี่ยสะสม (GPAX):</span>
+            <strong id="resGpax" class="text-emerald-700 text-sm">-</strong>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-lg md:col-span-2">
+            <span class="text-slate-500 block mb-0.5">วันที่ยื่นใบสมัคร:</span>
+            <strong id="resApplyDate" class="text-slate-800">-</strong>
+          </div>
+        </div>
+
+        <!-- Action / Print Buttons -->
+        <div class="mt-8 pt-6 border-t flex flex-wrap items-center justify-end gap-3">
+          <a id="btnPrintApplication" href="#" target="_blank"
+             class="px-5 py-2.5 rounded-xl bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs shadow transition flex items-center">
+            <i class="fa-solid fa-print mr-2"></i> พิมพ์ใบสมัครเข้าศึกษาต่อ (PDF)
+          </a>
+
+          <a id="btnPrintEnrollment" href="#" target="_blank"
+             class="px-5 py-2.5 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs shadow transition flex items-center">
+            <i class="fa-solid fa-file-signature mr-2"></i> พิมพ์ใบมอบตัวและสัญญาค้ำประกัน (PDF)
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <div class="font-bold text-white mb-1">วิทยาลัยเทคนิคท่าหลวงซิเมนต์ไทยอนุสรณ์</div>
+      <div class="text-[11px] text-slate-500">โทร. 036-201-447 • www.tl.ac.th</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/app-data.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/status.js"></script>
+</body>
+</html>

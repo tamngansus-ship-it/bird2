@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="100%" height="100%">
+  <rect width="100%" height="100%" fill="#E2E8F0"/>
+  <rect x="10" y="10" width="280" height="380" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+  
+  <!-- Silhouette of Student in Uniform -->
+  <circle cx="150" cy="130" r="55" fill="#94A3B8"/>
+  <path d="M 60,320 C 60,210 240,210 240,320 Z" fill="#1E3A8A"/>
+  
+  <!-- White Collar -->
+  <polygon points="150,210 120,270 150,250 180,270" fill="#FFFFFF"/>
+  <line x1="150" y1="250" x2="150" y2="320" stroke="#FFFFFF" stroke-width="4"/>
+
+  <!-- Badge / Emblem on chest -->
+  <circle cx="195" cy="275" r="8" fill="#F59E0B"/>
+
+  <text x="150" y="360" font-family="'Prompt', sans-serif" font-size="14" font-weight="bold" fill="#475569" text-anchor="middle">
+    รูปถ่ายหน้าตรง 1.5 นิ้ว
+  </text>
+  <text x="150" y="380" font-family="'Prompt', sans-serif" font-size="11" fill="#94A3B8" text-anchor="middle">
+    วิทยาลัยเทคนิคท่าหลวงฯ
+  </text>
+</svg>

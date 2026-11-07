@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบบริหารจัดการและทะเบียนผู้สมัคร (Back-end) - วท.ท่าหลวงซิเมนต์ไทยอนุสรณ์</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- SheetJS for real Excel .xlsx generation -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-slate-100 text-slate-800 flex flex-col min-h-screen">
+
+  <!-- Top Admin Bar -->
+  <header class="bg-slate-900 text-white sticky top-0 z-40 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo & Title -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-white p-1 flex items-center justify-center overflow-hidden">
+            <img src="file:///C:/Users/KHANOMMECOM/.gemini/antigravity/brain/ef592f7e-6cee-4008-8202-f6010c5e72de/.user_uploaded/media_1794058206763_99a59a92.png" onerror="this.src='assets/logo.svg'" alt="TTC Logo" class="college-logo-img h-full w-full object-contain">
+          </div>
+          <div>
+            <div class="font-bold text-sm md:text-base font-head leading-none flex items-center gap-2">
+              <span>วท.ท่าหลวงซิเมนต์ไทยอนุสรณ์</span>
+              <span class="bg-blue-600 text-[10px] font-mono px-2 py-0.5 rounded text-white">ระบบงานทะเบียน & แอดมิน</span>
+            </div>
+            <div class="text-[10px] text-slate-400 mt-1">
+              ระบบรับสมัครนักเรียน นักศึกษาใหม่ ออนไลน์ (ศธ.02 Registry Hub)
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Tools -->
+        <div class="flex items-center space-x-3 text-xs">
+          <!-- Notification Bell -->
+          <div class="relative">
+            <button id="btnNotificationBell" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition relative">
+              <i class="fa-solid fa-bell text-sm"></i>
+              <span id="notifUnreadBadge" class="hidden absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white text-[9px] font-bold flex items-center justify-center">0</span>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-slate-200 text-slate-800 z-50 overflow-hidden">
+              <div class="p-3 bg-slate-50 border-b flex justify-between items-center">
+                <span class="font-bold text-xs">การแจ้งเตือนในระบบ</span>
+                <button id="btnMarkAllNotifsRead" class="text-[10px] text-blue-600 hover:underline">อ่านทั้งหมด</button>
+              </div>
+              <div id="notificationListContainer" class="max-h-72 overflow-y-auto divide-y divide-slate-100">
+                <!-- Notifications dynamically loaded -->
+              </div>
+            </div>
+          </div>
+
+          <!-- LINE Settings Button -->
+          <button id="btnOpenLineSettings" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition flex items-center gap-1.5">
+            <i class="fa-brands fa-line text-sm"></i>
+            <span class="hidden sm:inline">ตั้งค่า LINE แจ้งเตือน</span>
+          </button>
+
+          <!-- Back to Front-end -->
+          <a href="index.html" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition flex items-center gap-1">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            <span class="hidden sm:inline">หน้าบ้าน</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full space-y-6">
+
+    <!-- KPI Metric Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center space-x-3">
+        <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-900 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-users"></i>
+        </div>
+        <div>
+          <div class="text-xs text-slate-500">ผู้สมัครทั้งหมด</div>
+          <div id="statTotal" class="text-2xl font-bold font-head text-blue-950">0</div>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center space-x-3">
+        <div class="w-12 h-12 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-hourglass-half"></i>
+        </div>
+        <div>
+          <div class="text-xs text-slate-500">รอตรวจสอบเอกสาร</div>
+          <div id="statPending" class="text-2xl font-bold font-head text-amber-600">0</div>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center space-x-3">
+        <div class="w-12 h-12 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div>
+          <div class="text-xs text-slate-500">เอกสารไม่สมบูรณ์</div>
+          <div id="statIncomplete" class="text-2xl font-bold font-head text-rose-600">0</div>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center space-x-3">
+        <div class="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div>
+          <div class="text-xs text-slate-500">ผ่านการคัดเลือก</div>
+          <div id="statPassed" class="text-2xl font-bold font-head text-emerald-600">0</div>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center space-x-3 col-span-2 md:col-span-1">
+        <div class="w-12 h-12 rounded-lg bg-purple-100 text-purple-900 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-id-badge"></i>
+        </div>
+        <div>
+          <div class="text-xs text-slate-500">มอบตัวสำเร็จแล้ว</div>
+          <div id="statEnrolled" class="text-2xl font-bold font-head text-purple-700">0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Chart 1: Applicants by Major -->
+      <div class="lg:col-span-8 bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-4 border-b pb-2">
+          <h3 class="font-bold text-sm text-slate-800 font-head flex items-center">
+            <i class="fa-solid fa-chart-column text-blue-900 mr-2"></i> สถิติผู้สมัครแยกตามสาขาวิชา (ปวช. / ปวส.)
+          </h3>
+          <span class="text-[11px] text-slate-400">อัปเดตแบบเรียลไทม์</span>
+        </div>
+        <div class="h-64">
+          <canvas id="chartMajor"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 2: Level Ratio -->
+      <div class="lg:col-span-4 bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-4 border-b pb-2">
+          <h3 class="font-bold text-sm text-slate-800 font-head flex items-center">
+            <i class="fa-solid fa-chart-pie text-amber-600 mr-2"></i> สัดส่วน ปวช. vs ปวส.
+          </h3>
+        </div>
+        <div class="h-64">
+          <canvas id="chartLevel"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 3: Previous School Breakdown -->
+      <div class="lg:col-span-6 bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-4 border-b pb-2">
+          <h3 class="font-bold text-sm text-slate-800 font-head flex items-center">
+            <i class="fa-solid fa-school text-emerald-700 mr-2"></i> โรงเรียนเดิมที่มีผู้สมัครมากที่สุด
+          </h3>
+        </div>
+        <div class="h-56">
+          <canvas id="chartSchool"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 4: Referral Channels -->
+      <div class="lg:col-span-6 bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-4 border-b pb-2">
+          <h3 class="font-bold text-sm text-slate-800 font-head flex items-center">
+            <i class="fa-solid fa-bullhorn text-indigo-700 mr-2"></i> ช่องทางการรับรู้ / ผู้แนะนำแนะแนว
+          </h3>
+        </div>
+        <div class="h-56">
+          <canvas id="chartReferral"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Applicant Management Section -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <!-- Section Header & Export Toolbar -->
+      <div class="p-5 border-b border-slate-200 bg-slate-50/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h2 class="font-bold text-lg text-blue-950 font-head flex items-center">
+            <i class="fa-solid fa-table-list text-blue-900 mr-2"></i> จัดการและตรวจสอบข้อมูลผู้สมัคร
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">ค้นหา กรอง ตรวจสอบหลักฐาน เปลี่ยนสถานะ และส่งออกข้อมูลเข้าสู่ระบบ ศธ.02</p>
+        </div>
+
+        <!-- Export Buttons (ศธ.02 Standard) -->
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="btnExportExcel" class="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition flex items-center gap-1.5" title="ส่งออกไฟล์ Excel มาตรฐาน ศธ.02">
+            <i class="fa-solid fa-file-excel text-sm"></i>
+            <span>ส่งออก Excel (ศธ.02)</span>
+          </button>
+
+          <button id="btnExportCSV" class="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-800 text-white font-semibold text-xs shadow-sm transition flex items-center gap-1.5" title="ส่งออกไฟล์ CSV สำหรับนำเข้า">
+            <i class="fa-solid fa-file-csv text-sm"></i>
+            <span>ส่งออก CSV</span>
+          </button>
+
+          <button id="btnResetDemoData" class="px-2.5 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold transition" title="รีเซ็ตข้อมูลตัวอย่าง">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters Row -->
+      <div class="p-4 bg-slate-50 border-b border-slate-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 text-xs">
+        <!-- Search -->
+        <div class="lg:col-span-3">
+          <label for="adminSearchInput" class="form-label font-medium text-slate-600">ค้นหา (ชื่อ/เลขบัตร/รร.เดิม/รหัส)</label>
+          <div class="relative">
+            <input type="text" id="adminSearchInput" placeholder="พิมพ์เพื่อค้นหาทันที..." class="form-control text-xs pl-8">
+            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400"></i>
+          </div>
+        </div>
+
+        <!-- Filter Year -->
+        <div class="lg:col-span-2">
+          <label for="filterYear" class="form-label font-medium text-slate-600">ปีการศึกษา</label>
+          <select id="filterYear" class="form-select text-xs">
+            <option value="all">ทุกปีการศึกษา</option>
+            <option value="2568" selected>2568</option>
+            <option value="2569">2569</option>
+          </select>
+        </div>
+
+        <!-- Filter Level -->
+        <div class="lg:col-span-2">
+          <label for="filterLevel" class="form-label font-medium text-slate-600">ระดับชั้น</label>
+          <select id="filterLevel" class="form-select text-xs">
+            <option value="all">ทุกระดับชั้น</option>
+            <option value="ปวช.">ปวช.</option>
+            <option value="ปวส.">ปวส.</option>
+          </select>
+        </div>
+
+        <!-- Filter Major -->
+        <div class="lg:col-span-3">
+          <label for="filterMajor" class="form-label font-medium text-slate-600">สาขาวิชา</label>
+          <select id="filterMajor" class="form-select text-xs">
+            <option value="all">-- สาขาวิชาทั้งหมด --</option>
+          </select>
+        </div>
+
+        <!-- Filter Status -->
+        <div class="lg:col-span-2">
+          <label for="filterStatus" class="form-label font-medium text-slate-600">สถานะ</label>
+          <select id="filterStatus" class="form-select text-xs">
+            <option value="all">ทุกสถานะ</option>
+            <option value="pending">รอตรวจสอบเอกสาร</option>
+            <option value="incomplete">เอกสารไม่สมบูรณ์</option>
+            <option value="passed">ผ่านการคัดเลือก</option>
+            <option value="enrolled">มอบตัวสำเร็จ</option>
+            <option value="rejected">สละสิทธิ์</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Table Container -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+            <tr>
+              <th class="px-4 py-3 text-center w-12">#</th>
+              <th class="px-4 py-3">เลขที่สมัคร / รหัส นศ.</th>
+              <th class="px-4 py-3">ชื่อ - สกุล / เลขบัตร ปชช.</th>
+              <th class="px-4 py-3">ระดับ / สาขาวิชา</th>
+              <th class="px-4 py-3">โรงเรียนเดิม / GPAX</th>
+              <th class="px-4 py-3 text-center">สถานะการสมัคร</th>
+              <th class="px-4 py-3 text-center">เอกสารแนบ</th>
+              <th class="px-4 py-3 text-right">การจัดการ</th>
+            </tr>
+          </thead>
+          <tbody id="applicantTableBody" class="divide-y divide-slate-100">
+            <!-- Dynamically populated by js/admin.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Footer / Count -->
+      <div class="p-3 bg-slate-50 border-t border-slate-200 flex justify-between items-center text-xs text-slate-500">
+        <span id="tableRecordCount">พบ 0 รายการ</span>
+        <button id="btnResetFilters" class="text-blue-600 hover:underline">ล้างตัวกรองทั้งหมด</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- =====================================================================
+       MODAL 1: รายละเอียดผู้สมัคร & ตรวจสอบเอกสาร (Document Viewer)
+       ===================================================================== -->
+  <div id="applicantDetailModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="p-4 bg-blue-950 text-white flex justify-between items-center">
+        <h4 id="modalDetailTitle" class="font-bold text-sm md:text-base font-head">ข้อมูลผู้สมัคร</h4>
+        <button onclick="closeDetailModal()" class="text-slate-300 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Modal Tabs -->
+      <div class="flex border-b bg-slate-50 px-4 text-xs font-semibold">
+        <button id="btnTabInfo" onclick="switchDetailTab('info')" class="py-3 px-4 border-b-2 border-blue-600 text-blue-600 font-bold flex items-center gap-1.5">
+          <i class="fa-solid fa-address-card"></i> ข้อมูลประวัติผู้สมัคร
+        </button>
+        <button id="btnTabDocs" onclick="switchDetailTab('docs')" class="py-3 px-4 border-b-2 border-transparent text-slate-500 hover:text-blue-600 flex items-center gap-1.5">
+          <i class="fa-solid fa-paperclip"></i> เอกสารหลักฐานที่แนบ
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto flex-1">
+        <div id="tabContentInfo"></div>
+        <div id="tabContentDocs" class="hidden"></div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 bg-slate-50 border-t flex justify-end">
+        <button onclick="closeDetailModal()" class="px-5 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs transition">
+          ปิดหน้าต่าง
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODAL 2: เปลี่ยนสถานะการสมัคร & บันทึกหมายเหตุ
+       ===================================================================== -->
+  <div id="statusUpdateModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
+      <div class="flex justify-between items-center border-b pb-3 mb-4">
+        <h4 class="font-bold text-base font-head text-blue-950">เปลี่ยนสถานะการสมัคร</h4>
+        <button onclick="closeStatusModal()" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+          <div>เลขที่สมัคร: <strong id="statusModalAppId" class="text-blue-900 font-mono">-</strong></div>
+          <div>ชื่อผู้สมัคร: <strong id="statusModalApplicantName" class="text-slate-800">-</strong></div>
+        </div>
+
+        <div>
+          <label for="modalSelectStatus" class="form-label font-semibold">เลือกสถานะใหม่</label>
+          <select id="modalSelectStatus" class="form-select text-xs font-semibold">
+            <option value="pending">รอตรวจสอบเอกสาร</option>
+            <option value="incomplete">เอกสารไม่สมบูรณ์ (ต้องแก้ไข)</option>
+            <option value="passed">ผ่านการคัดเลือก (มีสิทธิ์มอบตัว)</option>
+            <option value="enrolled">มอบตัวและขึ้นทะเบียนแล้ว</option>
+            <option value="rejected">สละสิทธิ์ / ไม่ผ่านคุณสมบัติ</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="modalStatusNotes" class="form-label font-semibold">ข้อความหมายเหตุ / แจ้งเตือนถึงผู้สมัคร</label>
+          <textarea id="modalStatusNotes" rows="3" class="form-control text-xs" placeholder="ระบุเหตุผลหรือข้อความแจ้งเตือน..."></textarea>
+        </div>
+
+        <!-- Quick Reason Presets -->
+        <div>
+          <span class="text-[11px] text-slate-500 block mb-1">ข้อความสำเร็จรูป:</span>
+          <div class="flex flex-wrap gap-1">
+            <button type="button" onclick="setQuickReason('เอกสารครบถ้วน ผ่านการคัดเลือกรอบโควตา นัดมอบตัว')" class="px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-[10px]">เอกสารครบ ผ่านคัดเลือก</button>
+            <button type="button" onclick="setQuickReason('กรุณาอัปโหลดใบแสดงผลการเรียน (ปพ.1) ด้านหลังเพิ่มเติม')" class="px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-[10px]">ขอใบ ปพ.1 เพิ่ม</button>
+            <button type="button" onclick="setQuickReason('รูปถ่ายไม่ชัดเจน กรุณาแนบรูปถ่ายหน้าตรงชุดสุภาพใหม่')" class="px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-[10px]">รูปถ่ายไม่ชัด</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t flex justify-end space-x-2">
+        <button onclick="closeStatusModal()" class="px-4 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold">
+          ยกเลิก
+        </button>
+        <button onclick="saveStatusUpdate()" class="px-5 py-2 rounded-lg bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold shadow">
+          บันทึกสถานะ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODAL 3: บันทึกข้อมูลการมอบตัว & กำหนดรหัสนักศึกษาใหม่
+       ===================================================================== -->
+  <div id="enrollmentModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl">
+      <div class="flex justify-between items-center border-b pb-3 mb-4">
+        <h4 class="font-bold text-base font-head text-purple-950 flex items-center">
+          <i class="fa-solid fa-file-signature text-purple-700 mr-2"></i> บันทึกการมอบตัวนักเรียน นักศึกษาใหม่
+        </h4>
+        <button onclick="closeEnrollModal()" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div class="bg-purple-50 p-3 rounded-lg border border-purple-200">
+          <div>เลขที่สมัคร: <strong id="enrollAppId" class="text-purple-900 font-mono">-</strong></div>
+          <div>ชื่อผู้สมัคร: <strong id="enrollApplicantName" class="text-slate-800">-</strong></div>
+          <div>สาขาวิชา: <strong id="enrollMajorName" class="text-slate-800">-</strong></div>
+        </div>
+
+        <div>
+          <label for="enrollStudentId" class="form-label required font-semibold">รหัสนักศึกษาใหม่ (ระบบสร้างให้อัตโนมัติ)</label>
+          <input type="text" id="enrollStudentId" maxlength="11" class="form-control font-mono font-bold text-sm text-purple-950">
+          <span class="text-[10px] text-slate-500">รูปแบบมาตรฐาน 11 หลัก เช่น 68201010001</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="enrollDate" class="form-label required font-semibold">วันที่มอบตัว</label>
+            <input type="date" id="enrollDate" class="form-control">
+          </div>
+          <div>
+            <label for="enrollPaymentStatus" class="form-label required font-semibold">สถานะค่าบำรุงการศึกษา</label>
+            <select id="enrollPaymentStatus" class="form-select">
+              <option value="paid">ชำระเรียบร้อยแล้ว</option>
+              <option value="scholarship">ได้รับทุนการศึกษา SCG</option>
+              <option value="deferred">ขอผ่อนผัน</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="enrollSigner" class="form-label required font-semibold">ชื่อผู้ทำสัญญา (ผู้ปกครอง)</label>
+            <input type="text" id="enrollSigner" class="form-control" placeholder="ชื่อผู้ปกครอง">
+          </div>
+          <div>
+            <label for="enrollSignerRelation" class="form-label required font-semibold">ความสัมพันธ์</label>
+            <input type="text" id="enrollSignerRelation" class="form-control" placeholder="เช่น บิดา / มารดา">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="enrollWitness1" class="form-label font-semibold">พยาน 1 (เจ้าหน้าที่ทะเบียน)</label>
+            <input type="text" id="enrollWitness1" class="form-control" value="นางสาวดวงใจ รักษ์ดี">
+          </div>
+          <div>
+            <label for="enrollWitness2" class="form-label font-semibold">พยาน 2 (หัวหน้าแผนก/ครู)</label>
+            <input type="text" id="enrollWitness2" class="form-control" value="นายวิชาญ สอนช่าง">
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t flex justify-end space-x-2">
+        <button onclick="closeEnrollModal()" class="px-4 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold">
+          ยกเลิก
+        </button>
+        <button onclick="saveEnrollment()" class="px-5 py-2 rounded-lg bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold shadow">
+          <i class="fa-solid fa-check mr-1.5"></i> ยืนยันการมอบตัว & ออกรหัสนักศึกษา
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODAL 4: ตั้งค่า LINE Notify & ดูประวัติการแจ้งเตือน
+       ===================================================================== -->
+  <div id="lineSettingsModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl">
+      <div class="flex justify-between items-center border-b pb-3 mb-4">
+        <h4 class="font-bold text-base font-head text-emerald-900 flex items-center">
+          <i class="fa-brands fa-line text-emerald-600 mr-2 text-xl"></i> ตั้งค่าการแจ้งเตือนอัตโนมัติ (LINE & Email)
+        </h4>
+        <button onclick="closeLineSettingsModal()" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="enableLineNotify" class="h-4 w-4 text-emerald-600 rounded">
+            <span class="font-bold text-slate-800">เปิดใช้งานระบบแจ้งเตือนอัตโนมัติ</span>
+          </label>
+        </div>
+
+        <div>
+          <label for="lineNotifyToken" class="form-label font-semibold">LINE Notify Token (กลุ่มเจ้าหน้าที่รับสมัคร)</label>
+          <input type="password" id="lineNotifyToken" class="form-control font-mono" placeholder="ใส่ Token ของ LINE Notify">
+          <span class="text-[10px] text-slate-400">ระบบจะส่งข้อความแจ้งเตือนทันทีที่มีผู้สมัครใหม่เข้ามา</span>
+        </div>
+
+        <div>
+          <label for="lineOaWebhook" class="form-label font-semibold">LINE Official Account Webhook URL</label>
+          <input type="text" id="lineOaWebhook" class="form-control font-mono" placeholder="https://api.line.me/...">
+        </div>
+
+        <div>
+          <label for="adminEmail" class="form-label font-semibold">อีเมลส่วนงานทะเบียน (สำรอง)</label>
+          <input type="email" id="adminEmail" class="form-control" placeholder="admission@tl.ac.th">
+        </div>
+
+        <!-- Notification Dispatch Log -->
+        <div class="pt-2 border-t">
+          <div class="flex justify-between items-center mb-1">
+            <span class="font-bold text-slate-700">ประวัติการส่งแจ้งเตือนล่าสุด (Dispatch Log):</span>
+            <button id="btnTestSendNotification" class="text-emerald-700 font-bold hover:underline">
+              <i class="fa-solid fa-paper-plane mr-1"></i> ทดสอบส่งข้อความ
+            </button>
+          </div>
+          <pre id="notificationDispatchLog" class="bg-slate-900 text-emerald-400 p-2.5 rounded-lg text-[10px] font-mono h-24 overflow-y-auto whitespace-pre-wrap"></pre>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t flex justify-end space-x-2">
+        <button onclick="closeLineSettingsModal()" class="px-4 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold">
+          ปิด
+        </button>
+        <button id="btnSaveLineSettings" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow">
+          บันทึกการตั้งค่า
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Zoom Modal -->
+  <div id="imageZoomModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="closeZoomModal()">
+    <div class="relative max-w-3xl max-h-[90vh]">
+      <img id="zoomModalImage" src="" alt="Zoomed document" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl">
+      <button onclick="closeZoomModal()" class="absolute -top-10 right-0 text-white text-2xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-4 border-t border-slate-800 text-center">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div>งานทะเบียนและวัดผล • วิทยาลัยเทคนิคท่าหลวงซิเมนต์ไทยอนุสรณ์ จ.สระบุรี</div>
+      <div class="text-[11px] text-slate-500">ระบบฐานข้อมูลผู้สมัครเข้าศึกษาต่อ (สอศ. 02 Compliant)</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/app-data.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/export-util.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
